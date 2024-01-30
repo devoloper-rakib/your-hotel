@@ -10,7 +10,12 @@ type RegisterFormData = {
 };
 
 const Register = () => {
-	const { register, watch, handleSubmit } = useForm<RegisterFormData>();
+	const {
+		register,
+		watch,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<RegisterFormData>();
 
 	const onSubmit = handleSubmit((data) => {
 		console.log(data);
@@ -27,6 +32,11 @@ const Register = () => {
 						className='border rounded w-full py-1 px-2 font-normal'
 						{...register('firstName', { required: 'this filed is Required' })}
 					></input>
+					{errors.firstName && (
+						<span className='text-red-500 capitalize mt-1 block'>
+							{errors?.firstName?.message}
+						</span>
+					)}
 				</label>
 
 				<label className='text-gray-700 text-sm font-bold flex-1'>
@@ -36,6 +46,11 @@ const Register = () => {
 						className='border rounded w-full py-1 px-2 font-normal'
 						{...register('lastName', { required: 'this filed is required' })}
 					></input>
+					{errors.lastName && (
+						<span className='text-red-500 capitalize mt-1 block'>
+							{errors?.lastName?.message}
+						</span>
+					)}
 				</label>
 			</div>
 
@@ -46,6 +61,12 @@ const Register = () => {
 					className='border rounded w-full py-1 px-2 font-normal'
 					{...register('email', { required: 'this filed is required' })}
 				></input>
+				{errors.email && (
+					<span className='text-red-500 block mt-1 capitalize'>
+						{' '}
+						{errors?.email?.message}{' '}
+					</span>
+				)}
 			</label>
 
 			<label className='text-gray-700 text-sm font-bold flex-1'>
@@ -61,6 +82,12 @@ const Register = () => {
 						},
 					})}
 				></input>
+				{errors.password && (
+					<span className='text-red-500 block mt-1 capitalize'>
+						{' '}
+						{errors?.password?.message}{' '}
+					</span>
+				)}
 			</label>
 
 			<label className='text-gray-700 text-sm font-bold flex-1'>
@@ -78,6 +105,12 @@ const Register = () => {
 						},
 					})}
 				></input>
+				{errors.confirmPassword && (
+					<span className='text-red-500 block mt-1 capitalize'>
+						{' '}
+						{errors?.confirmPassword?.message}{' '}
+					</span>
+				)}
 			</label>
 
 			<span>
