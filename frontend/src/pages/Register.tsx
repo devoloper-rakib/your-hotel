@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as apiClient from '../api-client';
 import { useAppContext } from '../contexts/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 // ts validation types
 export type RegisterFormData = {
@@ -13,6 +14,8 @@ export type RegisterFormData = {
 };
 
 const Register = () => {
+	const navigate = useNavigate();
+
 	const { showToast } = useAppContext();
 
 	// handle registration
@@ -28,6 +31,7 @@ const Register = () => {
 		onSuccess: () => {
 			// console.log('Registration successful');
 			showToast({ message: 'Registration successful', type: 'SUCCESS' });
+			navigate('/'); // todo : after adding login form  will make  /login
 		},
 		onError: (error: Error) => {
 			// console.error('Registration failed', error);
