@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import * as apiClient from '../api-client';
 import { useAppContext } from '../contexts/AppContext';
@@ -11,6 +11,8 @@ export type SignInFormData = {
 };
 
 const SignIn = () => {
+	const queryClient = useQueryClient();
+
 	const { showToast } = useAppContext();
 
 	const navigate = useNavigate();
@@ -23,7 +25,7 @@ const SignIn = () => {
 	const mutation = useMutation(apiClient.signIn, {
 		onSuccess: async () => {
 			// console.log('user has been signed In successfully!');
-
+			await queryClient.invalidateQueries('validateToken');
 			// 1. Show a toast message
 			showToast({
 				message: 'User has been signed In successfully',
