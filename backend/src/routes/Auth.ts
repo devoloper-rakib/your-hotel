@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../model/User';
+import verifyToken from '../middleware/auth';
 
 const router = express.Router();
 
@@ -45,7 +46,7 @@ router.post(
 				},
 			);
 
-			res.cookie('auth Token', token, {
+			res.cookie('auth_token', token, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
 				maxAge: 86400000,
@@ -58,5 +59,9 @@ router.post(
 		}
 	},
 );
+
+router.get('/validate-token', verifyToken, (req: Request, res: Response) => {
+	res.status(200).send({ userId: req.userId });
+});
 
 export default router;
