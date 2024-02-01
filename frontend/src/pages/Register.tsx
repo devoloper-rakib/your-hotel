@@ -54,7 +54,7 @@ const Register = () => {
 				<label className='text-gray-700 text-sm font-bold flex-1'>
 					First Name
 					<input
-						value='test' // for test purposes only
+						// value='test' // for test purposes only
 						className='border rounded w-full py-1 px-2 font-normal'
 						{...register('firstName', { required: 'this filed is Required' })}
 					></input>
@@ -68,7 +68,7 @@ const Register = () => {
 				<label className='text-gray-700 text-sm font-bold flex-1'>
 					Last Name
 					<input
-						value='test' // for test purposes only
+						// value='test' // for test purposes only
 						type='text'
 						className='border rounded w-full py-1 px-2 font-normal'
 						{...register('lastName', { required: 'this filed is required' })}
@@ -84,7 +84,7 @@ const Register = () => {
 			<label className='text-gray-700 text-sm font-bold flex-1'>
 				Email
 				<input
-					value='test@gmail.com' // for test purposes only
+					// value='test@gmail.com' // for test purposes only
 					type='email'
 					className='border rounded w-full py-1 px-2 font-normal'
 					{...register('email', { required: 'this filed is required' })}
@@ -100,7 +100,7 @@ const Register = () => {
 			<label className='text-gray-700 text-sm font-bold flex-1'>
 				Password
 				<input
-					value='test123' // for test purposes only
+					// value='test123' // for test purposes only
 					type='password'
 					className='border rounded w-full py-1 px-2 font-normal'
 					{...register('password', {
@@ -122,7 +122,7 @@ const Register = () => {
 			<label className='text-gray-700 text-sm font-bold flex-1'>
 				Confirm Password
 				<input
-					value='test123' // for test purposes only
+					// value='test123' // for test purposes only
 					type='password'
 					className='border rounded w-full py-1 px-2 font-normal'
 					{...register('confirmPassword', {

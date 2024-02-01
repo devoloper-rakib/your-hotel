@@ -7,7 +7,12 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/users';
 import authRoutes from './routes/Auth';
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => {
+	console.log(
+		'Connected To database : ',
+		process.env.MONGODB_CONNECTION_STRING,
+	);
+}); // todo : will delete after the development backend is finished
 
 const app = express();
 app.use(cookieParser());
