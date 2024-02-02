@@ -6,8 +6,8 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-import userRoutes from './routes/users.ts';
-import authRoutes from './routes/Auth.ts';
+import userRoutes from './routes/users';
+import authRoutes from './routes/Auth';
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => {
 	console.log(
