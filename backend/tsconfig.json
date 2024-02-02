@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"outDir": "./dist",
 		"moduleResolution": "node",
+		"noEmit": true,
 		"allowImportingTsExtensions": true,
 		"resolveJsonModule": true,
 		/* Visit https://aka.ms/tsconfig to read more about this file */
