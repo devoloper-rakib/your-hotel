@@ -5,6 +5,10 @@
 		"noEmit": false,
 		"resolveJsonModule": true,
 		"types": ["node"],
+		"baseUrl": "./",
+		"paths": {
+			"*": ["src/*"]
+		},
 		/* Visit https://aka.ms/tsconfig to read more about this file */
 
 		/* Projects */
