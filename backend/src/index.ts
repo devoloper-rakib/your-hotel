@@ -7,8 +7,8 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import { v2 as cloudinary } from 'cloudinary';
 
-// import userRoutes from './routes/users';
-// import authRoutes from './routes/authRoutes';
+import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/users';
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDNIARY_CLOUD_NAME,
@@ -36,8 +36,8 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
-// app.use('/api/auth', authRoutes);
-// app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Health route Checkpoint
 app.get('/api/health', async (req: Request, res: Response) => {
