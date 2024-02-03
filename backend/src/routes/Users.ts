@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { check, validationResult } from 'express-validator';
 
-import User from '../model/userModel';
+import User from '../models/userModel';
+
 const router = express.Router();
 
 // Point : FOR Register a users
