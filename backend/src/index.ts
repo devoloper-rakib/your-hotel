@@ -9,6 +9,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/users';
+import myHotelRoutes from './routes/my-hotels';
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDNIARY_CLOUD_NAME,
@@ -38,6 +39,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('api/my-hotels', myHotelRoutes);
 
 // Health route Checkpoint
 app.get('/api/health', async (req: Request, res: Response) => {
