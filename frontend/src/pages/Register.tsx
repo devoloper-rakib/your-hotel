@@ -50,59 +50,59 @@ const Register = () => {
 		<form className='flex flex-col gap-5' onSubmit={onSubmit}>
 			<h2 className='text-3xl font-bold'>Create an Account</h2>
 
-			<div className='flex flex-col md:flex-row gap-5'>
-				<label className='text-gray-700 text-sm font-bold flex-1'>
+			<div className='flex flex-col gap-5 md:flex-row'>
+				<label className='flex-1 text-sm font-bold text-gray-700'>
 					First Name
 					<input
 						// value='test' // for test purposes only
-						className='border rounded w-full py-1 px-2 font-normal'
+						className='w-full px-2 py-1 font-normal border rounded'
 						{...register('firstName', { required: 'this filed is Required' })}
 					></input>
 					{errors.firstName && (
-						<span className='text-red-500 capitalize mt-1 block'>
+						<span className='block mt-1 text-red-500 capitalize'>
 							{errors?.firstName?.message}
 						</span>
 					)}
 				</label>
 
-				<label className='text-gray-700 text-sm font-bold flex-1'>
+				<label className='flex-1 text-sm font-bold text-gray-700'>
 					Last Name
 					<input
 						// value='test' // for test purposes only
 						type='text'
-						className='border rounded w-full py-1 px-2 font-normal'
+						className='w-full px-2 py-1 font-normal border rounded'
 						{...register('lastName', { required: 'this filed is required' })}
 					></input>
 					{errors.lastName && (
-						<span className='text-red-500 capitalize mt-1 block'>
+						<span className='block mt-1 text-red-500 capitalize'>
 							{errors?.lastName?.message}
 						</span>
 					)}
 				</label>
 			</div>
 
-			<label className='text-gray-700 text-sm font-bold flex-1'>
+			<label className='flex-1 text-sm font-bold text-gray-700'>
 				Email
 				<input
 					// value='test@gmail.com' // for test purposes only
 					type='email'
-					className='border rounded w-full py-1 px-2 font-normal'
+					className='w-full px-2 py-1 font-normal border rounded'
 					{...register('email', { required: 'this filed is required' })}
 				></input>
 				{errors.email && (
-					<span className='text-red-500 block mt-1 capitalize'>
+					<span className='block mt-1 text-red-500 capitalize'>
 						{' '}
 						{errors?.email?.message}{' '}
 					</span>
 				)}
 			</label>
 
-			<label className='text-gray-700 text-sm font-bold flex-1'>
+			<label className='flex-1 text-sm font-bold text-gray-700'>
 				Password
 				<input
 					// value='test123' // for test purposes only
 					type='password'
-					className='border rounded w-full py-1 px-2 font-normal'
+					className='w-full px-2 py-1 font-normal border rounded'
 					{...register('password', {
 						required: 'this filed is required',
 						minLength: {
@@ -112,19 +112,19 @@ const Register = () => {
 					})}
 				></input>
 				{errors.password && (
-					<span className='text-red-500 block mt-1 capitalize'>
+					<span className='block mt-1 text-red-500 capitalize'>
 						{' '}
 						{errors?.password?.message}{' '}
 					</span>
 				)}
 			</label>
 
-			<label className='text-gray-700 text-sm font-bold flex-1'>
+			<label className='flex-1 text-sm font-bold text-gray-700'>
 				Confirm Password
 				<input
 					// value='test123' // for test purposes only
 					type='password'
-					className='border rounded w-full py-1 px-2 font-normal'
+					className='w-full px-2 py-1 font-normal border rounded'
 					{...register('confirmPassword', {
 						validate: (value) => {
 							if (!value) {
@@ -136,7 +136,7 @@ const Register = () => {
 					})}
 				></input>
 				{errors.confirmPassword && (
-					<span className='text-red-500 block mt-1 capitalize'>
+					<span className='block mt-1 text-red-500 capitalize'>
 						{' '}
 						{errors?.confirmPassword?.message}{' '}
 					</span>
@@ -146,7 +146,7 @@ const Register = () => {
 			<span>
 				<button
 					type='submit'
-					className='bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl '
+					className='p-2 text-xl font-bold text-white bg-blue-600 hover:bg-blue-500 '
 				>
 					Create Account
 				</button>
