@@ -13,7 +13,7 @@ import myHotelRoutes from './routes/my-hotels';
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDNIARY_CLOUD_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
+	api_key: process.env.CLOUDNIARY_API_KEY,
 	api_secret: process.env.CLOUDNIARY_API_SECRET,
 });
 
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-app.use('api/my-hotels', myHotelRoutes);
+app.use('/api/my-hotels', myHotelRoutes);
 
 // Health route Checkpoint
 app.get('/api/health', async (req: Request, res: Response) => {
