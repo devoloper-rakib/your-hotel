@@ -68,7 +68,7 @@ router.post(
 );
 
 async function uploadImages(imageFiles: Express.Multer.File[]) {
-	// error : preventing type arrow  handling
+	// error : preventing type error  handling
 	if (!imageFiles) return [];
 
 	const uploadPromises = imageFiles.map(async (image) => {
