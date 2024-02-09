@@ -66,6 +66,7 @@ export const signOut = async () => {
 		throw new Error('Error during Sign out');
 	}
 };
+
 // Point : add hotel
 export const addMyHotel = async (hotelFormData: FormData) => {
 	const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {

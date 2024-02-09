@@ -68,6 +68,9 @@ router.post(
 );
 
 async function uploadImages(imageFiles: Express.Multer.File[]) {
+	// error : preventing type arrow  handling
+	if (!imageFiles) return [];
+
 	const uploadPromises = imageFiles.map(async (image) => {
 		const b64 = Buffer.from(image.buffer).toString('base64');
 		let dataURI = 'data:' + image.mimetype + ';base64,' + b64;
