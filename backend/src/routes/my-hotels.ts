@@ -96,4 +96,24 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
 	}
 });
 
+// Point : edit my hotels api endpoint
+router.get('/:id', verifyToken, async (req: Request, res: Response) => {
+	const id = req.params.id.toString();
+
+	try {
+		// to edit the hotel and populate the data from the database
+		const hotel = await Hotel.findOne({
+			_id: id,
+			userId: req.userId,
+		});
+
+		res.json(hotel);
+	} catch (error) {
+		console.log('error on edit hotel', error);
+		res.status(500).json({
+			message: 'Error fetching hotels',
+		});
+	}
+});
+
 export default router;

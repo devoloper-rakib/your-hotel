@@ -1,9 +1,12 @@
 import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+
 import DetailsSection from './DetailsSection';
 import TypeSection from './TypeSection';
 import FacilitiesSection from './FacilitiesSection';
 import GuestsSection from './GuestsSection';
 import ImagesSection from './ImagesSection';
+import { HotelType } from '../../../../backend/src/shared/types';
 
 export type HotelFormData = {
 	name: string;
@@ -20,14 +23,19 @@ export type HotelFormData = {
 };
 
 type Props = {
+	hotel: HotelType;
 	onSave: (hotelFormData: FormData) => void;
 	isLoading: boolean;
 };
 
-function ManageHotelForm({ onSave, isLoading }: Props) {
+function ManageHotelForm({ onSave, isLoading, hotel }: Props) {
 	const formMethods = useForm<HotelFormData>();
 
-	const { handleSubmit } = formMethods;
+	const { handleSubmit, reset } = formMethods;
+
+	useEffect(() => {
+		reset(hotel);
+	}, [hotel, reset]);
 
 	const onSubmit = handleSubmit((formDataJson: HotelFormData) => {
 		// Point : create new formData object & call our API
