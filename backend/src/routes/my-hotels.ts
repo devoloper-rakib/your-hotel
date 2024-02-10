@@ -82,8 +82,17 @@ async function uploadImages(imageFiles: Express.Multer.File[]) {
 	return imageUrls;
 }
 
-router.get('/', (req: Request, res: Response) => {
-	res.send('api okay');
+// Point: My hotel information api endpoint
+router.get('/', verifyToken, async (req: Request, res: Response) => {
+	try {
+		const hotels = await Hotel.find({ userId: req.userId });
+		res.json(hotels);
+	} catch (error) {
+		console.log('error fetching hotels information:', error);
+		res.status(500).json({
+			message: 'Error fetching  hotels information',
+		});
+	}
 });
 
 export default router;

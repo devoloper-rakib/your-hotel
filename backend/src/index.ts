@@ -37,9 +37,15 @@ app.use(
 
 app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
+// Point: api routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/my-hotels', myHotelRoutes);
+
+// Point : handle with any other api url path
+app.get('*', (req: Request, res: Response) => {
+	res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
 
 // Health route Checkpoint
 app.get('/api/health', async (req: Request, res: Response) => {
