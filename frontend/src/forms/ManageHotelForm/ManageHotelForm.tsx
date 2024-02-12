@@ -86,7 +86,13 @@ function ManageHotelForm({ onSave, isLoading, hotel }: Props) {
 						type='submit'
 						className='p-2 text-xl font-bold text-white bg-blue-600 hover:bg-blue-500 disabled:bg-gray-500'
 					>
-						{isLoading ? 'Adding...' : 'Add Hotel'}
+						{isLoading
+							? hotel
+								? 'Updating...'
+								: 'Adding...'
+							: hotel
+							? 'Update Hotel'
+							: 'Add Hotel'}
 					</button>
 				</span>
 			</form>
