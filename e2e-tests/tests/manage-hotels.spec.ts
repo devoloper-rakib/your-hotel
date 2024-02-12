@@ -85,4 +85,12 @@ test('should edit hotel', async ({ page }) => {
 	await page.locator('[name="name"]').fill('Dublin Getaways test mode updated');
 	await page.getByRole('button', { name: 'Update Hotel' }).click();
 	await expect(page.getByText('Hotel Updated Successfully')).toBeVisible();
+
+	await page.reload();
+
+	await expect(page.locator("[name='name']")).toHaveValue(
+		'Dublin Getaways test mode updated',
+	);
+	await page.locator('[name = "name"]').fill('Dublin Getaways');
+	await page.getByRole('button', { name: 'Update Hotel' }).click();
 });
