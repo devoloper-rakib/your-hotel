@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import { body } from 'express-validator';
@@ -10,14 +9,14 @@ import { HotelType } from '../shared/types';
 
 const router = express.Router();
 
-// Point : multer configuration limit 6 images per hotel
 const storage = multer.memoryStorage();
+
 const upload = multer({
-	storage: storage,
+	storage,
 	limits: {
-		fileSize: 5 * 1024 * 1024, // 5MB
+		fileSize: 5 * 1024 * 1024, // 5mb
 	},
-});
+}).array('imageFiles', 6);
 
 // / api/my-hotels
 router.post(
@@ -38,28 +37,51 @@ router.post(
 			.isArray()
 			.withMessage('Facilities are required'),
 	],
-	upload.array('imageFiles', 6),
-	async (req: Request, res: Response) => {
-		try {
-			const imageFiles = req.files as Express.Multer.File[];
-			const newHotel: HotelType = req.body;
+	(req: Request, res: Response) => {
+		upload(req, res, async (uploadErr: any) => {
+			if (uploadErr) {
+				console.error('Error uploading files:', uploadErr);
+				return res
+					.status(400)
+					.json({ message: 'Error uploading files', error: uploadErr });
+			}
 
-			const imageUrls = await uploadImages(imageFiles);
+			try {
+				const imageFiles = req.files as Express.Multer.File[];
+				const newHotel: HotelType = req.body;
 
-			newHotel.imageUrls = imageUrls;
-			newHotel.lastUpdated = new Date();
-			newHotel.userId = req.userId;
+				const imageUrls = await uploadImages(imageFiles);
 
-			const hotel = new Hotel(newHotel);
-			await hotel.save();
+				newHotel.imageUrls = imageUrls;
+				newHotel.lastUpdated = new Date();
+				newHotel.userId = req.userId;
 
-			res.status(201).send(hotel);
-		} catch (e) {
-			console.log(e);
-			res.status(500).json({ message: 'Something went wrong' });
-		}
+				const hotel = new Hotel(newHotel);
+				await hotel.save();
+				console.log(hotel);
+				res.status(201).send(hotel);
+			} catch (error) {
+				console.error('Error creating hotel:', error);
+				res.status(500).json({ message: 'Something went wrong' });
+			}
+		});
 	},
 );
+
+async function uploadImages(imageFiles: Express.Multer.File[]) {
+	// error : preventing type error  handling
+	if (!imageFiles) return [];
+
+	const uploadPromises = imageFiles.map(async (image) => {
+		const b64 = Buffer.from(image.buffer).toString('base64');
+		let dataURI = 'data:' + image.mimetype + ';base64,' + b64;
+		const res = await cloudinary.v2.uploader.upload(dataURI);
+		return res.url;
+	});
+
+	const imageUrls = await Promise.all(uploadPromises);
+	return imageUrls;
+}
 
 // Point: My hotel information api endpoint
 router.get('/', verifyToken, async (req: Request, res: Response) => {
@@ -67,21 +89,30 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
 		const hotels = await Hotel.find({ userId: req.userId });
 		res.json(hotels);
 	} catch (error) {
-		res.status(500).json({ message: 'Error fetching hotels' });
+		console.log('error fetching hotels information:', error);
+		res.status(500).json({
+			message: 'Error fetching  hotels information',
+		});
 	}
 });
 
 // Point : edit my hotels api endpoint
 router.get('/:id', verifyToken, async (req: Request, res: Response) => {
 	const id = req.params.id.toString();
+
 	try {
+		// to edit the hotel and populate the data from the database
 		const hotel = await Hotel.findOne({
 			_id: id,
 			userId: req.userId,
 		});
+
 		res.json(hotel);
 	} catch (error) {
-		res.status(500).json({ message: 'Error fetching hotels' });
+		console.log('error on edit hotel', error);
+		res.status(500).json({
+			message: 'Error fetching hotels',
+		});
 	}
 });
 
@@ -89,7 +120,7 @@ router.get('/:id', verifyToken, async (req: Request, res: Response) => {
 router.put(
 	'/:hotelId',
 	verifyToken,
-	upload.array('imageFiles'),
+	upload.array('imagesUrls'),
 	async (req: Request, res: Response) => {
 		try {
 			const updatedHotel: HotelType = req.body;
@@ -104,11 +135,10 @@ router.put(
 				{ new: true },
 			);
 
-			if (!hotel) {
-				return res.status(404).json({ message: 'Hotel not found' });
-			}
+			if (!hotel) return res.status(404).json({ message: 'hotel not found' });
 
 			const files = req.files as Express.Multer.File[];
+
 			const updatedImageUrls = await uploadImages(files);
 
 			hotel.imageUrls = [
@@ -117,24 +147,13 @@ router.put(
 			];
 
 			await hotel.save();
+
 			res.status(201).json(hotel);
 		} catch (error) {
-			res.status(500).json({ message: 'Something went throw' });
+			console.log('Error updating image file', error);
+			res.status(500).json({ message: 'Error updating image file' });
 		}
 	},
 );
-
-// Point : upload image to cloudinary server
-async function uploadImages(imageFiles: Express.Multer.File[]) {
-	const uploadPromises = imageFiles.map(async (image) => {
-		const b64 = Buffer.from(image.buffer).toString('base64');
-		let dataURI = 'data:' + image.mimetype + ';base64,' + b64;
-		const res = await cloudinary.v2.uploader.upload(dataURI);
-		return res.url;
-	});
-
-	const imageUrls = await Promise.all(uploadPromises);
-	return imageUrls;
-}
 
 export default router;

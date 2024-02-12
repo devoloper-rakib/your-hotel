@@ -24,7 +24,7 @@ export type HotelFormData = {
 };
 
 type Props = {
-	hotel: HotelType;
+	hotel?: HotelType; /// defined as optional property
 	onSave: (hotelFormData: FormData) => void;
 	isLoading: boolean;
 };
@@ -41,6 +41,9 @@ function ManageHotelForm({ onSave, isLoading, hotel }: Props) {
 	const onSubmit = handleSubmit((formDataJson: HotelFormData) => {
 		// Point : create new formData object & call our API
 		const formData = new FormData();
+
+		if (hotel) formData.append('hotelId', hotel._id);
+
 		formData.append('name', formDataJson.name);
 		formData.append('city', formDataJson.city);
 		formData.append('country', formDataJson.country);
@@ -55,9 +58,16 @@ function ManageHotelForm({ onSave, isLoading, hotel }: Props) {
 			formData.append(`facilities[${index}]`, facility);
 		});
 
+		if (formDataJson.imageUrls) {
+			formDataJson.imageUrls.forEach((url, index) => {
+				formData.append(`imageUrls[${index}]`, url);
+			});
+		}
+
 		Array.from(formDataJson.imageFiles).forEach((imageFile) => {
 			formData.append(`imageFiles`, imageFile);
 		});
+
 		console.log(formData);
 		onSave(formData);
 	});
