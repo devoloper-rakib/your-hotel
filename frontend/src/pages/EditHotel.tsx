@@ -13,7 +13,7 @@ const EditHotel = () => {
 		'fetchMyHotelById',
 		() => apiClient.fetchMyHotelById(hotelId || ''),
 		{
-			enabled: !!hotelId, // only going to learn if hotel id is enabled
+			enabled: !!hotelId, // only going to work if hotel id is enabled
 		},
 	);
 
