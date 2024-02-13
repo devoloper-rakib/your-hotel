@@ -1,12 +1,14 @@
 import { FormEvent, useState } from 'react';
 import { MdTravelExplore } from 'react-icons/md';
 import DatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useSearchContext } from '../contexts/SearchContext';
 
 const SearchBar = () => {
 	const search = useSearchContext();
+	const navigate = useNavigate();
 
 	const [destination, setDestination] = useState<string>(search.destination);
 	const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
@@ -23,6 +25,7 @@ const SearchBar = () => {
 			adultCount,
 			childCount,
 		);
+		navigate('/search');
 	};
 
 	const minDate = new Date();
@@ -44,6 +47,7 @@ const SearchBar = () => {
 					onChange={(event) => setDestination(event.target.value)}
 				/>
 			</div>
+
 			<div className='flex gap-2 px-2 py-1 bg-white rounded'>
 				<label className='flex items-center'>
 					Adults:
