@@ -25,7 +25,7 @@ const EditHotel = () => {
 			showToast({ message: 'Error adding to the list', type: 'ERROR' });
 			console.log(err);
 		},
-	});
+	}); 
 
 	const handleSave = (hotelFormData: FormData) => {
 		mutate(hotelFormData);
