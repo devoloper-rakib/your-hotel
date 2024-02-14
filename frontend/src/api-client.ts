@@ -148,11 +148,11 @@ export const searchHotels = async (
 	queryParams.append('page', searchParams.page || '');
 
 	const response = await fetch(
-		`${API_BASE_URL}/api/hotels/search?${queryParams.toString()}`,
+		`${API_BASE_URL}/api/hotels/search?${queryParams}`,
 	);
 
 	if (!response.ok) {
-		throw new Error(`Error Fetching hotels : ${queryParams.toString()}`);
+		throw new Error(`Error Fetching hotels : ${queryParams}`);
 	}
 
 	return response.json();

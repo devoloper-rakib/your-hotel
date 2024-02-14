@@ -3,6 +3,7 @@ import { useSearchContext } from '../contexts/SearchContext';
 import * as apiClient from './../api-client';
 import { useState } from 'react';
 import SearchResultsCard from '../components/SearchResultsCard';
+import Pagination from '../components/Pagination';
 
 const Search = () => {
 	const search = useSearchContext();
@@ -20,6 +21,8 @@ const Search = () => {
 	const { data: hotelData } = useQuery(['searchHotels', searchParams], () =>
 		apiClient.searchHotels(searchParams),
 	);
+
+	console.log(hotelData);
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5'>
@@ -40,9 +43,16 @@ const Search = () => {
 					</span>
 					{/* // todo: sort option will be added near future */}
 				</div>
-				{hotelData?.data.map((hotel) => (
-					<SearchResultsCard hotel={hotel} />
+				{hotelData?.data.map((hotel, index) => (
+					<SearchResultsCard key={index} hotel={hotel} />
 				))}
+				<div>
+					<Pagination
+						page={hotelData?.pagination.page || 1}
+						pages={hotelData?.pagination.pages || 1}
+						onPageChange={(page) => setPage(page)}
+					/>
+				</div>
 			</div>
 		</div>
 	);
