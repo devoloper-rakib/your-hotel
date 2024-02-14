@@ -11,7 +11,6 @@ router.get('/search', async (req: Request, res: Response) => {
 		const query = constructSearchQuery(req.query);
 
 		let sortOptions = {};
-
 		switch (req.query.sortOption) {
 			case 'starRating':
 				sortOptions = { starRating: -1 };

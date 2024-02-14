@@ -1,13 +1,15 @@
 import { useQuery } from 'react-query';
 import { useSearchContext } from '../contexts/SearchContext';
 import * as apiClient from './../api-client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import SearchResultsCard from '../components/SearchResultsCard';
 import Pagination from '../components/Pagination';
+import StarRatingFilter from '../components/StarRatingFilter';
 
 const Search = () => {
 	const search = useSearchContext();
 	const [page, setPage] = useState<number>(1);
+	const [selectedStars, setSelectedStars] = useState<string[]>([]);
 
 	const searchParams = {
 		destination: search.destination,
@@ -16,13 +18,23 @@ const Search = () => {
 		adultCount: search.adultCount.toString(),
 		childCount: search.childCount.toString(),
 		page: page.toString(),
+
+		stars: selectedStars,
 	};
 
 	const { data: hotelData } = useQuery(['searchHotels', searchParams], () =>
 		apiClient.searchHotels(searchParams),
 	);
 
-	console.log(hotelData);
+	const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const starRating = event.target.value;
+
+		setSelectedStars((prev) =>
+			event.target.checked
+				? [...prev, starRating]
+				: prev.filter((star) => star !== starRating),
+		);
+	};
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5'>
@@ -31,7 +43,10 @@ const Search = () => {
 					<h3 className='pb-5 text-lg font-semibold border-b border-slate-300'>
 						Filter By
 					</h3>
-					{/* // Todo : Filters data will be added near future  */}
+					<StarRatingFilter
+						selectedStars={selectedStars}
+						onChange={handleStarsChange}
+					/>
 				</div>
 			</div>
 
