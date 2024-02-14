@@ -53,6 +53,7 @@ router.get('/search', async (req: Request, res: Response) => {
 });
 
 // Point : searching algorithm/ query v2
+
 // const constructSearchQuery = (queryParams: any) => {
 // 	let constructedQuery: any = {};
 
@@ -111,6 +112,7 @@ router.get('/search', async (req: Request, res: Response) => {
 // };
 
 // POINT :  searching algorithm/ query v1
+
 const constructSearchQuery = (queryParams: any) => {
 	let constructedQuery: any = {};
 
