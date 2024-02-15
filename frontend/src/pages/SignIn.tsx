@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 import * as apiClient from '../api-client';
 import { useAppContext } from '../contexts/AppContext';
@@ -15,6 +15,8 @@ const SignIn = () => {
 	const { showToast } = useAppContext();
 
 	const navigate = useNavigate();
+	const location = useLocation();
+
 	const {
 		register,
 		formState: { errors },
@@ -31,7 +33,7 @@ const SignIn = () => {
 				type: 'SUCCESS',
 			});
 			// 2. navigate to the home page
-			navigate('/');
+			navigate(location.state?.from?.pathname || '/');
 		},
 		onError: (error: Error) => {
 			// show a toast message
@@ -57,8 +59,7 @@ const SignIn = () => {
 				></input>
 				{errors.email && (
 					<span className='text-red-500 block mt-1 capitalize'>
-						{' '}
-						{errors?.email?.message}{' '}
+						{errors?.email?.message}
 					</span>
 				)}
 			</label>
