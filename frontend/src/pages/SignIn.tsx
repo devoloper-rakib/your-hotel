@@ -49,27 +49,27 @@ const SignIn = () => {
 		<form className='flex flex-col gap-5' onSubmit={onSubmit}>
 			<h2 className='text-3xl font-bold'>Sign In</h2>
 
-			<label className='text-gray-700 text-sm font-bold flex-1'>
+			<label className='flex-1 text-sm font-bold text-gray-700'>
 				Email
 				<input
 					value='test@gmail.com' // for test purposes only
 					type='email'
-					className='border rounded w-full py-1 px-2 font-normal'
+					className='w-full px-2 py-1 font-normal border rounded'
 					{...register('email', { required: 'this filed is required' })}
 				></input>
 				{errors.email && (
-					<span className='text-red-500 block mt-1 capitalize'>
+					<span className='block mt-1 text-red-500 capitalize'>
 						{errors?.email?.message}
 					</span>
 				)}
 			</label>
 
-			<label className='text-gray-700 text-sm font-bold flex-1'>
+			<label className='flex-1 text-sm font-bold text-gray-700'>
 				Password
 				<input
 					value='test123' // for test purposes only
 					type='password'
-					className='border rounded w-full py-1 px-2 font-normal'
+					className='w-full px-2 py-1 font-normal border rounded'
 					{...register('password', {
 						required: 'this filed is required',
 						minLength: {
@@ -79,7 +79,7 @@ const SignIn = () => {
 					})}
 				></input>
 				{errors.password && (
-					<span className='text-red-500 block mt-1 capitalize'>
+					<span className='block mt-1 text-red-500 capitalize'>
 						{' '}
 						{errors?.password?.message}{' '}
 					</span>
@@ -96,7 +96,7 @@ const SignIn = () => {
 
 				<button
 					type='submit'
-					className='bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl '
+					className='p-2 text-xl font-bold text-white bg-blue-600 hover:bg-blue-500 '
 				>
 					Login
 				</button>
