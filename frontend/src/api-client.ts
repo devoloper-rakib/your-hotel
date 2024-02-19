@@ -5,6 +5,7 @@ import {
 	HotelType,
 	UserType,
 } from '../../backend/src/shared/types';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // Point : find Current user
