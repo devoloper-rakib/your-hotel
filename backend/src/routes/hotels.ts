@@ -162,6 +162,8 @@ router.post(
 				hotelId,
 				userId: req.userId,
 			},
+			description: 'Payment intent',
+			// error : stripe payment failed check console for more information
 		});
 
 		if (!paymentIntent.client_secret) {
