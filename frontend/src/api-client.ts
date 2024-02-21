@@ -3,6 +3,7 @@ import { SignInFormData } from './pages/SignIn';
 import {
 	HotelSearchResponse,
 	HotelType,
+	PaymentIntentResponse,
 	UserType,
 } from '../../backend/src/shared/types';
 
@@ -197,5 +198,29 @@ export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
 	if (!response.ok) {
 		throw new Error('Error fetching hotel data');
 	}
+	return response.json();
+};
+
+// Point : Stripe Payment Intent
+export const createPaymentIntent = async (
+	hotelId: string,
+	numberOfNights: number,
+): Promise<PaymentIntentResponse> => {
+	const response = await fetch(
+		`${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
+		{
+			credentials: 'include',
+			method: 'POST',
+			body: JSON.stringify({ numberOfNights }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+
+	if (!response.ok) {
+		throw new Error('Error Creating payment intent');
+	}
+
 	return response.json();
 };
