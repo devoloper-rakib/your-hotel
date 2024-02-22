@@ -12,6 +12,7 @@ import {
 } from '../../../../backend/src/shared/types';
 import * as apiClient from '../../api-client';
 import { useAppContext } from '../../contexts/AppContext';
+import { useState } from 'react';
 
 type Props = {
 	currentUser: UserType;
@@ -40,22 +41,23 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 
 	const { showToast } = useAppContext();
 
-	const { mutate: bookRoom, isLoading } = useMutation(
-		apiClient.createRoomBooking,
-		{
-			onSuccess: () => {
-				showToast({
-					message: 'Booking Created Successfully!',
-					type: 'SUCCESS',
-				});
-			},
+	const [isLoading, setIsLoading] = useState(false);
 
-			onError: (error) => {
-				console.log('error creating book', error);
-				showToast({ message: 'Error Creating Booking', type: 'ERROR' });
-			},
+	const { mutate: bookRoom } = useMutation(apiClient.createRoomBooking, {
+		onSuccess: () => {
+			showToast({
+				message: 'Booking Created Successfully!',
+				type: 'SUCCESS',
+			});
+			setIsLoading(false);
 		},
-	);
+
+		onError: (error) => {
+			console.log('error creating book', error);
+			showToast({ message: 'Error Creating Booking', type: 'ERROR' });
+			setIsLoading(false);
+		},
+	});
 
 	const { register, handleSubmit } = useForm<BookingFormData>({
 		defaultValues: {
@@ -74,21 +76,35 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 	});
 
 	const onSubmit = async (formData: BookingFormData) => {
-		if (!stripe || !elements) {
-			return;
-		}
+		if (!stripe || !elements) return;
+
+		setIsLoading(true);
 
 		const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
 			payment_method: {
 				card: elements.getElement(CardElement) as StripeCardElement,
+				billing_details: {
+					name: formData.firstName + ' ' + formData.lastName,
+					address: {
+						line1: 'Address Line 1',
+						line2: 'Address Line 2',
+						city: 'City',
+						state: 'State',
+						postal_code: 'Postal Code',
+						country: 'US',
+					},
+				},
 			},
 		});
 
-		console.log(result);
+		console.log('==>>>>>>>>>>>>', result);
 
 		if (result.paymentIntent?.status === 'succeeded') {
+			// Point: book the room/cabin
 			bookRoom({ ...formData, paymentIntentId: result.paymentIntent.id });
 		}
+
+		setIsLoading(false);
 	};
 
 	return (
@@ -158,7 +174,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
 				<button
 					disabled={isLoading}
 					type='submit'
-					className='bg-blue-600 text-white  p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500'
+					className='p-2 font-bold text-white bg-blue-600 hover:bg-blue-500 text-md disabled:bg-gray-500'
 				>
 					{isLoading ? 'Creating...' : 'Confirm Booking'}
 				</button>

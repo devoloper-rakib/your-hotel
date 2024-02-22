@@ -155,6 +155,17 @@ router.post(
 		const totalCost = hotel.pricePerNight * numberOfNights;
 
 		// / 3) userId
+		// const paymentIntent = await stripe.paymentIntents.create({
+		// 	amount: totalCost,
+		// 	currency: 'usd',
+		// 	metadata: {
+		// 		hotelId,
+		// 		userId: req.userId,
+		// 	},
+		// 	description: 'Payment intent',
+		// 	// error : stripe payment failed check console for more information
+		// });
+
 		const paymentIntent = await stripe.paymentIntents.create({
 			amount: totalCost,
 			currency: 'usd',
@@ -163,7 +174,7 @@ router.post(
 				userId: req.userId,
 			},
 			description: 'Payment intent',
-			// error : stripe payment failed check console for more information
+			payment_method_types: ['card'],
 		});
 
 		if (!paymentIntent.client_secret) {
