@@ -67,5 +67,11 @@ test('should book hotel', async ({ page }) => {
 	await stripeFrame.locator("[placeholder='ZIP']").fill('42424242');
 
 	await page.getByRole('button', { name: 'Confirm Booking' }).click();
-	await expect(page.getByText('Booking Created Successfully!')).toBeVisible();
+	await expect(page.getByText('Booking Created Successfully!')).toBeVisible({
+		timeout: 10000,
+	});
+
+	// Point : from here it will test my booking page is working or not ?
+	await page.getByRole('link', { name: 'My Bookings' }).click();
+	await expect(page.getByText('dhaka hotel')).toBeVisible();
 });
