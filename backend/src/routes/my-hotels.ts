@@ -53,6 +53,8 @@ router.post(
 			const hotel = new Hotel(newHotel);
 			await hotel.save();
 
+			// console.log(hotel);
+
 			res.status(201).send(hotel);
 		} catch (e) {
 			console.log(e);
