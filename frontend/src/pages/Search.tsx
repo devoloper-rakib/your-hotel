@@ -124,11 +124,19 @@ const Search = () => {
 				))}
 
 				<div>
-					<Pagination
-						page={hotelData?.pagination.page || 1}
-						pages={hotelData?.pagination.pages || 1}
-						onPageChange={(page) => setPage(page)}
-					/>
+					{hotelData &&
+					hotelData.pagination &&
+					hotelData.pagination.pages > 0 ? (
+						<Pagination
+							page={hotelData.pagination.page || 0}
+							pages={hotelData.pagination.pages || 0}
+							onPageChange={(page) => setPage(page)}
+						/>
+					) : (
+						<h2 className='flex justify-center text-2xl font-bold text-red-500'>
+							Try different hotel types, ratings, and facilities
+						</h2>
+					)}
 				</div>
 			</div>
 		</div>
