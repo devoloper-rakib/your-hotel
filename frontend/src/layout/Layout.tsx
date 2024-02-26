@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
@@ -8,10 +9,12 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
+	const location = useLocation();
+
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<Header />
-			<Hero />
+			{location.pathname === '/' && <Hero />}
 			<div className='container mx-auto'>
 				<SearchBar />
 			</div>

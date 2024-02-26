@@ -4,7 +4,6 @@ import {
 	Routes,
 	Navigate,
 } from 'react-router-dom';
-
 import Layout from './layout/Layout';
 import Register from './pages/Register';
 import SignIn from './pages/SignIn';
@@ -23,101 +22,25 @@ function App() {
 
 	return (
 		<Router>
-			<Routes>
-				<Route
-					path='/'
-					element={
-						<Layout>
-							<Home />
-						</Layout>
-					}
-				/>
-				<Route
-					path='/search'
-					element={
-						<Layout>
-							<Search />
-						</Layout>
-					}
-				/>
-
-				<Route
-					path='/details/:hotelId'
-					element={
-						<Layout>
-							<Details />
-						</Layout>
-					}
-				/>
-				<Route
-					path='register'
-					element={
-						<Layout>
-							<Register />
-						</Layout>
-					}
-				/>
-
-				<Route
-					path='/sign-in'
-					element={
-						<Layout>
-							<SignIn />
-						</Layout>
-					}
-				/>
-
-				{isLoggedIn && (
-					<>
-						<Route
-							path='/hotel/:hotelId/booking'
-							element={
-								<Layout>
-									<Booking />
-								</Layout>
-							}
-						/>
-
-						<Route
-							path='/add-hotel'
-							element={
-								<Layout>
-									<AddHotel />
-								</Layout>
-							}
-						/>
-
-						<Route
-							path='/edit-hotel/:hotelId'
-							element={
-								<Layout>
-									<EditHotel />
-								</Layout>
-							}
-						/>
-
-						<Route
-							path='/my-hotels'
-							element={
-								<Layout>
-									<MyHotels />
-								</Layout>
-							}
-						/>
-
-						<Route
-							path='/my-bookings'
-							element={
-								<Layout>
-									<MyBookings />
-								</Layout>
-							}
-						/>
-					</>
-				)}
-
-				<Route path='*' element={<Navigate to='/' />} />
-			</Routes>
+			<Layout>
+				<Routes>
+					<Route path='/' element={<Home />} />
+					<Route path='/search' element={<Search />} />
+					<Route path='/details/:hotelId' element={<Details />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/sign-in' element={<SignIn />} />
+					{isLoggedIn && (
+						<>
+							<Route path='/hotel/:hotelId/booking' element={<Booking />} />
+							<Route path='/add-hotel' element={<AddHotel />} />
+							<Route path='/edit-hotel/:hotelId' element={<EditHotel />} />
+							<Route path='/my-hotels' element={<MyHotels />} />
+							<Route path='/my-bookings' element={<MyBookings />} />
+						</>
+					)}
+					<Route path='*' element={<Navigate to='/' />} />
+				</Routes>
+			</Layout>
 		</Router>
 	);
 }
