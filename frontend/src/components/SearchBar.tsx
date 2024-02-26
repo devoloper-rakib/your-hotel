@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { MdTravelExplore } from 'react-icons/md';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,11 @@ const SearchBar = () => {
 	const [adultCount, setAdultCount] = useState<number>(search.adultCount);
 	const [childCount, setChildCount] = useState<number>(search.childCount);
 
+	const inputRef = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (inputRef.current) return inputRef.current.focus();
+	}, []);
+
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
 		search.saveSearchValues(
@@ -26,6 +31,14 @@ const SearchBar = () => {
 			childCount,
 		);
 		navigate('/search');
+	};
+
+	const handleClear = () => {
+		setDestination('');
+		setCheckIn(new Date());
+		setCheckOut(new Date());
+		setAdultCount(1);
+		setChildCount(0);
 	};
 
 	const minDate = new Date();
@@ -45,6 +58,7 @@ const SearchBar = () => {
 					className='w-full text-md'
 					value={destination}
 					onChange={(event) => setDestination(event.target.value)}
+					ref={inputRef}
 				/>
 			</div>
 
@@ -108,7 +122,10 @@ const SearchBar = () => {
 					Search
 				</button>
 
-				<button className='w-1/3 h-full p-2 text-xl font-bold text-white bg-red-600 hover:bg-red-500'>
+				<button
+					onClick={handleClear}
+					className='w-1/3 h-full p-2 text-xl font-bold text-white bg-red-600 hover:bg-red-500'
+				>
 					Clear
 				</button>
 			</div>
